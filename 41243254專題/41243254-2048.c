@@ -32,4 +32,5 @@ void box()
 	printf("¢x%4d  ¢x%4d  ¢x%4d  ¢x%4d  ¢x	 \n", 0, 0, 0, 0);
 	printf("¢x      ¢x      ¢x      ¢x      ¢x  \n");
 	printf("¢|¢w¢w¢w¢w¢w¢w¢r¢w¢w¢w¢w¢w¢w¢r¢w¢w¢w¢w¢w¢w¢r¢w¢w¢w¢w¢w¢w¢}\n");
+	printf("");
 }
