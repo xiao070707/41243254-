@@ -2,9 +2,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include "area.h"
 void box();
-char space[8] = { 32,32,32,32,32,32,32,32 };
-int start[2] = { 2,4 };
+int number[4][4] = { 0 };
+int *
 int main()
 {
 	box();
@@ -17,19 +18,19 @@ void box()
 	srand((unsigned)time(NULL));
 	printf("┌──────┬──────┬──────┬──────┐\n");
 	printf("│      │      │      │      │\n");
-	printf("│%4d  │%4d  │%4d  │%4d  │	 得分:%d \n", 2, 2, 2048, 2048, 2048);
+	printf("│%4d  │%4d  │%4d  │%4d  │	 得分:%d \n", number[0][0], number[0][1], number[0][2], number[0][3], 0);
 	printf("│      │      │      │      │  \n");
 	printf("├──────┼──────┼──────┼──────┤\n");
 	printf("│      │      │      │      │\n");
-	printf("│%4d  │%4d  │%4d  │%4d  │	  \n", 2, 2, 2048, 2048);
+	printf("│%4d  │%4d  │%4d  │%4d  │	  \n", number[1][0], number[1][1], number[1][2], number[1][3]);
 	printf("│      │      │      │      │  \n");
 	printf("├──────┼──────┼──────┼──────┤\n");
 	printf("│      │      │      │      │\n");
-	printf("│%4d  │%4d  │%4d  │%4d  │	  \n", 2, 2, 2048, 2048);
+	printf("│%4d  │%4d  │%4d  │%4d  │	  \n", number[2][0], number[2][1], number[2][2], number[2][3]);
 	printf("│      │      │      │      │  \n");
 	printf("├──────┼──────┼──────┼──────┤\n");
 	printf("│      │      │      │      │\n");
-	printf("│%4d  │%4d  │%4d  │%4d  │	 \n", 0, 0, 0, 0);
+	printf("│%4d  │%4d  │%4d  │%4d  │	 \n", number[3][0], number[3][1], number[3][2], number[3][3]);
 	printf("│      │      │      │      │  \n");
 	printf("└──────┴──────┴──────┴──────┘\n");
 	printf("");
