@@ -3,22 +3,28 @@
 #include <stdio.h>
 #include <time.h>
 #include "area.h"
-void box();
-int number[4][4] = { 0 };
-int *
+void box(int[][4]);
 int main()
 {
-	box();
+	int number[4][4] = { 0 };
+	number[2][1] = 1;
+	box(number);
+	system("cls");
+	number[2][2] = 1;
+	box(number);
 	return 0;
 }
 
-void box()
+void box(int number[][4])
 {
+	int* piA;
+	//piA = &number[0][0];
+	//*(piA+1) = 1;
 	int i;
 	srand((unsigned)time(NULL));
 	printf("┌──────┬──────┬──────┬──────┐\n");
 	printf("│      │      │      │      │\n");
-	printf("│%4d  │%4d  │%4d  │%4d  │	 得分:%d \n", number[0][0], number[0][1], number[0][2], number[0][3], 0);
+	printf("│%4d  │%4d  │%4d  │%4d  │	 得分:%d \n",number[0][0], number[0][1], number[0][2], number[0][3], 0);
 	printf("│      │      │      │      │  \n");
 	printf("├──────┼──────┼──────┼──────┤\n");
 	printf("│      │      │      │      │\n");
@@ -33,5 +39,5 @@ void box()
 	printf("│%4d  │%4d  │%4d  │%4d  │	 \n", number[3][0], number[3][1], number[3][2], number[3][3]);
 	printf("│      │      │      │      │  \n");
 	printf("└──────┴──────┴──────┴──────┘\n");
-	printf("");
+	
 }
