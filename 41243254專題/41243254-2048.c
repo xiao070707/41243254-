@@ -3,23 +3,28 @@
 #include <stdio.h>
 #include <time.h>
 #include "area.h"
-void box(int[][4]);
+void game(int[][4]);
 int main()
 {
-	int number[4][4] = { 0 };
+	int i, number[4][4] = { 0 };
 	number[2][1] = 1;
-	box(number);
-	system("cls");
+	for ( i = 1; i !=0;)
+	{
+		system("cls");
+		game(number);
+	}
+	
+	
 	number[2][2] = 1;
 	box(number);
 	return 0;
 }
 
-void box(int number[][4])
+void game(int number[][4])
 {
 	int* piA;
-	//piA = &number[0][0];
-	//*(piA+1) = 1;
+	piA = &number[0][0];
+	*(piA) = 2;
 	int i;
 	srand((unsigned)time(NULL));
 	printf("¢z¢w¢w¢w¢w¢w¢w¢s¢w¢w¢w¢w¢w¢w¢s¢w¢w¢w¢w¢w¢w¢s¢w¢w¢w¢w¢w¢w¢{\n");
