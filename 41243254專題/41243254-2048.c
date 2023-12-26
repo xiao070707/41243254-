@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <time.h>
 #include "area.h"
-void gamebox();
+void gamebox(int,int*);
 void firstrandom();
 void play();
 void up();
@@ -11,26 +11,111 @@ void down();
 void left();
 void right();
 void random();
-void end();
+void Score(int*);
+int record(int);
+int loss(int *);
+int win(int*);
 int number[4][4] = { 0 };
-int win2048[11] = {2,4,8,16,32,64,128,256,512,1024,2048 };
+int win2048[11] = {2,4,8,16,32,64,128,256,512,1024,2048};
+
+int win(int* Win)
+{
+	int i, j;
+	for (i = 0; i <=3; i++)
+	{
+		for ( j = 0; j <=3; j++)
+		{
+			if (number[i][j]==win2048[10])
+			{
+				*Win = 0;
+				printf("\n恭喜破關");
+			}
+		}
+	}
+}
+int loss(int* Loss)
+{
+	int i,j,loss=0;
+	for ( i = 0; i <=3; i++)
+	{
+		for ( j = 0; j <=3; j++)
+		{
+			if (number[i][j] != 0)
+				loss++;
+			if (loss==16&&number[i][j]!=number[i-1][j]&& number[i][j] != number[i][j-1] && number[i][j] != number[i][j + 1] && number[i][j] != number[i+1][j])
+			{
+				*Loss = 0;
+				printf("遊戲結束");
+			}
+		}
+	}
+}
+int record(int score)
+{
+	int RE;
+	FILE* pfile;// 宣告指向檔案的結構指標
+	if (score > RE)
+	{
+		if ((pfile = fopen("record.txt", "w")) == NULL) 
+		{
+			printf("StudentInfo.txt 檔案無法開啟");
+			system("pause");
+			return(0);
+		}
+		fprintf(pfile,"%d", score);
+	}
+	if ((pfile = fopen("record.txt", "r")) == NULL) 
+	{ 
+		printf("story.txt 檔案無法開啟"); 
+		system("pause"); 
+		return(0);
+	}
+	while (!feof(pfile)) 
+	{	
+		fscanf(pfile,"%d",&RE);	
+		printf("%d",RE);		
+	}
+	fclose(pfile); // 關閉檔案
+	return(RE);
+}
+
+void Score(int* score)
+{
+	int i, j;
+	for (i = 0; i <= 3; i++)
+	{
+		for (j = 0; j <=3 ; j++)
+		{
+			if(number[i][j])//在這裡要記得要處理得分喔
+		}
+	}
+}
+
 int main()
 {
+	int loss0,win0,re,score=0;
+	loss0 = win0 = 1;
 	firstrandom();
-	gamebox();
-	play();
-	random();
-	system("cls");
-	gamebox();
+    while (win0!=0||loss0!=0);
+	{
+	      re=record(score);
+	      gamebox(re,&score);
+	      play();
+		  Score(&score);
+	      random();
+		  win(&win0);
+		  end(&loss0);
+    }
 	return 0;
 }
 
-void gamebox()
+void gamebox(int re,int* score)
 {
+	system("cls");
 	printf("┌──────┬──────┬──────┬──────┐\n");
 	printf("│      │      │      │      │\n");
-	printf("│%4d  │%4d  │%4d  │%4d  │	 得分:%d \n",number[0][0], number[0][1], number[0][2], number[0][3], 0);
-	printf("│      │      │      │      │  \n");
+	printf("│%4d  │%4d  │%4d  │%4d  │	 得分:%d \n",number[0][0], number[0][1], number[0][2], number[0][3], *score);
+	printf("│      │      │      │      │ 紀錄:%d \n",re);
 	printf("├──────┼──────┼──────┼──────┤\n");
 	printf("│      │      │      │      │\n");
 	printf("│%4d  │%4d  │%4d  │%4d  │	  \n", number[1][0], number[1][1], number[1][2], number[1][3]);
