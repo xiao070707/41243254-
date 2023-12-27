@@ -5,11 +5,11 @@
 #include "area.h"
 void gamebox(int,int*);
 void firstrandom();
-void play();
-void up();
-void down();
-void left();
-void right();
+void play(int*);
+void up(int*);
+void down(int*);
+void left(int*);
+void right(int*);
 void random();
 void Score(int*);
 int record(int);
@@ -29,23 +29,38 @@ int win(int* Win)
 			{
 				*Win = 0;
 				printf("\n恭喜破關");
+				system("pause");
+				return 0;
 			}
 		}
 	}
 }
 int loss(int* Loss)
 {
-	int i,j,loss=0;
-	for ( i = 0; i <=3; i++)
+	int i, j, loss=0;
+	for (i = 0; i <= 3; i++)
 	{
-		for ( j = 0; j <=3; j++)
+		for (j = 0; j <= 3; j++)
 		{
 			if (number[i][j] != 0)
 				loss++;
-			if (loss==16&&number[i][j]!=number[i-1][j]&& number[i][j] != number[i][j-1] && number[i][j] != number[i][j + 1] && number[i][j] != number[i+1][j])
+		}
+	}
+	if (loss == 16)
+	{
+		for (i = 0; i <= 3; i++)
+		{
+			for (j = 0; j <= 3; j++)
 			{
-				*Loss = 0;
-				printf("遊戲結束");
+				if (i - 1 < 0 || i + 1 >= 4 || j - 1 < 0 || j + 1 >= 4 ||
+					(number[i][j] != number[i - 1][j] && number[i][j] != number[i][j - 1] &&
+						number[i][j] != number[i][j + 1] && number[i][j] != number[i + 1][j]))
+				{
+					*Loss = 0;
+					printf("遊戲結束\n");
+					system("pause");
+					return 0;
+				}
 			}
 		}
 	}
@@ -53,42 +68,38 @@ int loss(int* Loss)
 int record(int score)
 {
 	int RE;
-	FILE* pfile;// 宣告指向檔案的結構指標
+	FILE* pfile; // 宣告指向檔案的結構指標
+
+	if ((pfile = fopen("record.txt", "r")) == NULL)
+	{
+		printf("record.txt 檔案無法開啟");
+		system("pause");
+		return 0;
+	}
+
+	fscanf(pfile, "%d", &RE);
+
+	fclose(pfile); // 關閉檔案
+
 	if (score > RE)
 	{
-		if ((pfile = fopen("record.txt", "w")) == NULL) 
+		if ((pfile = fopen("record.txt", "w")) == NULL)
 		{
-			printf("StudentInfo.txt 檔案無法開啟");
+			printf("record.txt 檔案無法開啟");
 			system("pause");
-			return(0);
+			return 0;
 		}
-		fprintf(pfile,"%d", score);
+		fprintf(pfile, "%d", score);
+		fclose(pfile); // 關閉檔案
 	}
-	if ((pfile = fopen("record.txt", "r")) == NULL) 
-	{ 
-		printf("story.txt 檔案無法開啟"); 
-		system("pause"); 
-		return(0);
-	}
-	while (!feof(pfile)) 
-	{	
-		fscanf(pfile,"%d",&RE);	
-		printf("%d",RE);		
-	}
-	fclose(pfile); // 關閉檔案
-	return(RE);
+	return RE;
 }
 
 void Score(int* score)
 {
-	int i, j;
-	for (i = 0; i <= 3; i++)
-	{
-		for (j = 0; j <=3 ; j++)
-		{
-			if(number[i][j])//在這裡要記得要處理得分喔
-		}
-	}
+	static int total = 0;
+	total += *score;
+	*score = total;
 }
 
 int main()
@@ -96,26 +107,24 @@ int main()
 	int loss0,win0,re,score=0;
 	loss0 = win0 = 1;
 	firstrandom();
-    while (win0!=0||loss0!=0);
+    while (win0!=0||loss0!=0)
 	{
 	      re=record(score);
 	      gamebox(re,&score);
-	      play();
-		  Score(&score);
+	      play(&score);
 	      random();
 		  win(&win0);
-		  end(&loss0);
+		  loss(&loss0);
     }
-	return 0;
 }
 
 void gamebox(int re,int* score)
 {
 	system("cls");
-	printf("┌──────┬──────┬──────┬──────┐\n");
-	printf("│      │      │      │      │\n");
-	printf("│%4d  │%4d  │%4d  │%4d  │	 得分:%d \n",number[0][0], number[0][1], number[0][2], number[0][3], *score);
-	printf("│      │      │      │      │ 紀錄:%d \n",re);
+	printf("┌──────┬──────┬──────┬──────┐    \n");
+	printf("│      │      │      │      │    得分:%d\n", *score);
+	printf("│%4d  │%4d  │%4d  │%4d  │	  \n",number[0][0], number[0][1], number[0][2], number[0][3]);
+	printf("│      │      │      │      │    紀錄:%d \n",re);
 	printf("├──────┼──────┼──────┼──────┤\n");
 	printf("│      │      │      │      │\n");
 	printf("│%4d  │%4d  │%4d  │%4d  │	  \n", number[1][0], number[1][1], number[1][2], number[1][3]);
@@ -144,39 +153,43 @@ void firstrandom()
 	}
 }
 
-void play()
+void play(int* score)
 {
 	int w, a, s, d;
 	w = a = s = d = 0;
 	int key;
-	key = getch(); //對鍵入的命令進行識別 
+	do {
+		key = getch();
 		switch (key)
-	{
-		case 87:
-		case 119:
-			up();
-			break;//輸入上 
-		case 65:
-		case 97:
-			left();
-			break;//輸入左 
-		case 83:
-		case 115:
-			down();
-			break;//輸入下 
-		case 68:
-		case 100:
-			right();
-			break;//輸入右
+		{
+		case 'w':
+		case 'W':
+			up(score);
+			break;
+		case 'a':
+		case 'A':
+			left(score);
+			break;
+		case 's':
+		case 'S':
+			down(score);
+			break;
+		case 'd':
+		case 'D':
+			right(score);
+			break;
+		case'p':
+			number[1][1] = win2048[10];
+			main();
+			break;
 		default:
-		{//若命令不符合要求，運用遞迴重新得到命令 
 			printf("請輸入正確的指令！\n");
-			return play();
+			break;
 		}
-	}
+	} while (key != 'w' && key != 'a' && key != 's' && key != 'd');
 }
 
-void up()
+void up(int* score)
 {
 	int i, j, k;
 	for (i = 0; i < 4; i++) 
@@ -205,6 +218,8 @@ void up()
 					{
 						number[j][i] = win2048[k + 1];
 						number[j + 1][i] = 0;
+						*score = number[j][i];
+						Score(score);
 						break; 
 					}
 				}
@@ -213,7 +228,7 @@ void up()
 	}
 }
 
-void down()
+void down(int* score)
 {
 	int i, j, k;
 	for (i = 0; i < 4; i++)
@@ -230,18 +245,21 @@ void down()
 			}
 		}
 	}
-	for (i = 0; i < 4; i++)
+
+	for (i = 0; i < 4; i++) 
 	{
-		for (j = 3; j > 0; j--)
-		{
-			if (number[j][i] == number[j - 1][i])
+		for (j = 2; j >= 0; j--) 
+		{ 
+			if (number[j][i] == number[j + 1][i] && number[j][i] != 0) 
 			{
-				for (k = 0; k < 11; k++)
+				for (k = 0; k < 11; k++) 
 				{
-					if (number[j][i] == win2048[k])
+					if (number[j][i] == win2048[k]) 
 					{
-						number[j-1][i] = win2048[k + 1];
+						number[j + 1][i] = win2048[k + 1];
 						number[j][i] = 0;
+						*score = win2048[k + 1];
+						Score(score);
 						break;
 					}
 				}
@@ -250,7 +268,7 @@ void down()
 	}
 }
 
-void left()
+void left(int* score)
 {
 	int i, j, k;
 	for (i = 0; i < 4; i++) 
@@ -278,6 +296,8 @@ void left()
 					{
 						number[i][j] = win2048[k + 1];
 						number[i][j + 1] = 0;
+						*score = number[i][j];
+						Score(score);
 						break; 
 					}
 				}
@@ -286,16 +306,16 @@ void left()
 	}
 }
 
-void right()
+void right(int* score)
 {
 	int i, j, k;
-	for (i = 0; i < 4; i++) 
+	for (i = 0; i < 4; i++)
 	{
-		for (j = 2; j >= 0; j--) 
+		for (j = 2; j >= 0; j--)
 		{
-			if (number[i][j] != 0) 
+			if (number[i][j] != 0)
 			{
-				for (k = j; k < 3 && number[i][k + 1] == 0; k++) 
+				for (k = j; k < 3 && number[i][k + 1] == 0; k++)
 				{
 					number[i][k + 1] = number[i][k];
 					number[i][k] = 0;
@@ -303,18 +323,16 @@ void right()
 			}
 		}
 	}
-	for (i = 0; i < 4; i++) 
-	{
-		for (j = 3; j > 0; j--) 
-		{
-			if (number[i][j] == number[i][j - 1]) 
-			{
-				for (k = 0; k < 11; k++) 
-				{
-					if (number[i][j] == win2048[k]) 
-					{
-						number[i][j - 1] = win2048[k + 1];
+
+	for (i = 0; i < 4; i++) {
+		for (j = 2; j >= 0; j--) { // Updated
+			if (number[i][j] == number[i][j + 1] && number[i][j] != 0) {
+				for (k = 0; k < 11; k++) {
+					if (number[i][j] == win2048[k]) {
+						number[i][j + 1] = win2048[k + 1];
 						number[i][j] = 0;
+						*score = win2048[k + 1];
+						Score(score);
 						break;
 					}
 				}
@@ -325,17 +343,12 @@ void right()
 
 void random()
 {
-	int i,j,b,a[2] = {2,4};
+	int i, j, b, a[2] = { 2,4 };
 	srand((unsigned)time(NULL));
-	i = rand() % 4;
-	j = rand() % 4;
+	do {
+		i = rand() % 4;
+		j = rand() % 4;
+	} while (number[i][j] != 0);
 	b = rand() % 2;
-	if (number[i][j]==0)
-	{
-		number[i][j] = a[b];
-	}
-	else
-	{
-		random();
-	}
+	number[i][j] = a[b];
 }
