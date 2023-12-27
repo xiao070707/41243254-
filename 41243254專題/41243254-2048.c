@@ -3,21 +3,6 @@
 #include <stdio.h>
 #include <time.h>
 #include "area.h"
-void gamebox(int,int*);
-void firstrandom();
-void play(int*);
-void up(int*);
-void down(int*);
-void left(int*);
-void right(int*);
-void random();
-void Score(int*);
-int record(int);
-int loss(int *);
-int win(int*);
-int number[4][4] = { 0 };
-int win2048[11] = {2,4,8,16,32,64,128,256,512,1024,2048};
-
 int win(int* Win)
 {
 	int i, j;
