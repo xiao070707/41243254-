@@ -13,9 +13,7 @@ int win(int* Win)
 			if (number[i][j]==win2048[10])
 			{
 				*Win = 0;
-				printf("\n恭喜破關");
-				system("pause");
-				return 0;
+				printf("\n恭喜破關\n");
 			}
 		}
 	}
@@ -43,8 +41,6 @@ int loss(int* Loss)
 				{
 					*Loss = 0;
 					printf("遊戲結束\n");
-					system("pause");
-					return 0;
 				}
 			}
 		}
@@ -92,7 +88,7 @@ int main()
 	int loss0,win0,re,score=0;
 	loss0 = win0 = 1;
 	firstrandom();
-    while (win0!=0||loss0!=0)
+    while (win0!=0&&loss0!=0)
 	{
 	      re=record(score);
 	      gamebox(re,&score);
@@ -101,6 +97,8 @@ int main()
 		  win(&win0);
 		  loss(&loss0);
     }
+	system("pause");
+	return 0;
 }
 
 void gamebox(int re,int* score)
@@ -171,7 +169,7 @@ void play(int* score)
 			printf("請輸入正確的指令！\n");
 			break;
 		}
-	} while (key != 'w' && key != 'a' && key != 's' && key != 'd');
+	} while (key != 'w' && key != 'a' && key != 's' && key != 'd'&&key!='p');
 }
 
 void up(int* score)
