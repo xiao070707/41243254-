@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="41243254-2048.c" />
+    <ClCompile Include="record and score.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="area.h" />

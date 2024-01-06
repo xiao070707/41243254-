@@ -1,3 +1,8 @@
+#pragma once
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
 void gamebox(int, int*);
 void firstrandom();
 void play(int*);
@@ -10,5 +15,3 @@ void Score(int*);
 int record(int);
 int loss(int*);
 int win(int*);
-int number[4][4] = { 0 };
-int win2048[11] = { 2,4,8,16,32,64,128,256,512,1024,2048 };

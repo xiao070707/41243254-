@@ -18,6 +18,9 @@
     <ClCompile Include="41243254-2048.c">
       <Filter>來源檔案</Filter>
     </ClCompile>
+    <ClCompile Include="record and score.c">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="area.h">
